@@ -3,12 +3,31 @@
 #include "CipherType.hpp"
 #include "ProcessCommandLine.hpp"
 #include "TransformChar.hpp"
+#include "PlayfairCipher.hpp"
 
 #include <cctype>
 #include <fstream>
 #include <iostream>
 #include <string>
 #include <vector>
+
+
+/**
+* \mainpage Welcome to MPAGS Cipher
+*
+* Blah blah
+*
+* \section Introduction
+* Blah blah
+*
+* \subsection Usage
+*
+* \code{.cpp}
+CaesarCipher c {"4"};
+std::cout << c.applyCipher("test");
+* \endcode
+*/
+
 
 int main(int argc, char* argv[])
 {
@@ -17,7 +36,7 @@ int main(int argc, char* argv[])
 
     // Options that might be set by the command-line arguments
     ProgramSettings settings{
-        false, false, "", "", "", CipherMode::Encrypt, CipherType::Caesar};
+        false, false, "", "", "PLAYFAIREXAMPLE", CipherMode::Decrypt, CipherType::Playfair};
 
     // Process command line arguments
     const bool cmdLineStatus{processCommandLine(cmdLineArgs, settings)};
@@ -99,9 +118,9 @@ int main(int argc, char* argv[])
             break;
         }
         case CipherType::Playfair: {
-            std::cerr << "[warning] Playfair cipher not yet implemented"
-                      << std::endl;
-            outputText = inputText;
+            PlayfairCipher cipher(settings.cipherKey);
+            outputText = cipher.applyCipher(inputText, settings.cipherMode);
+
             break;
         }
     }
